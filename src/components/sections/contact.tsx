@@ -109,7 +109,7 @@ export default function Contact() {
                     <Input
                       id="email"
                       type="email"
-                      placeholder="your.email@example.com"
+                      placeholder="meetway.tech@gmail.com"
                       {...register("email")}
                     />
                     {errors.email && (
@@ -190,11 +190,11 @@ export default function Contact() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <a
-                  href="mailto:your.email@example.com"
+                  href="mailto:meetway.tech@gmail.com"
                   className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <Mail className="h-5 w-5" />
-                  <span>your.email@example.com</span>
+                  <span>meetway.tech@gmail.com</span>
                 </a>
                 <a
                   href="https://github.com"

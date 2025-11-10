@@ -79,9 +79,9 @@ function FloatingOrbs() {
   
   const orbs = useMemo(
     () => [
-      { position: [-3, 1, -2], speed: 0.5 },
-      { position: [3, -1, -2], speed: 0.7 },
-      { position: [0, 2, -4], speed: 0.6 },
+      { position: [-3, 1, -2] as [number, number, number], speed: 0.5 },
+      { position: [3, -1, -2] as [number, number, number], speed: 0.7 },
+      { position: [0, 2, -4] as [number, number, number], speed: 0.6 },
     ],
     []
   );
