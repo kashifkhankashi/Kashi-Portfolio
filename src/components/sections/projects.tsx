@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, Github, X } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import SectionCanvas from "@/components/three/section-canvas";
 
 const projects = [
   {
@@ -72,9 +73,10 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="py-20 sm:py-24 md:py-32 bg-background"
+      className="relative py-20 sm:py-24 md:py-32 bg-background overflow-hidden"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionCanvas type="projects" />
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

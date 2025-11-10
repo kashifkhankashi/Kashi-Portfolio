@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Calendar, MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import SectionCanvas from "@/components/three/section-canvas";
 
 const experiences = [
   {
@@ -83,9 +84,10 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="py-20 sm:py-24 md:py-32 bg-muted/30"
+      className="relative py-20 sm:py-24 md:py-32 bg-muted/30 overflow-hidden"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionCanvas type="experience" />
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -1,15 +1,29 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import HeroBackground from "@/components/three/hero-background";
+import SceneRenderer from "@/components/three/scene-renderer";
+import SceneSelector, { SceneType } from "@/components/scene-selector";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [currentScene, setCurrentScene] = useState<SceneType>("minimal");
+
+  // Save scene preference to localStorage
+  useEffect(() => {
+    const savedScene = localStorage.getItem("preferred-scene") as SceneType;
+    if (savedScene && ["minimal", "particles", "geometric", "orbital", "waves"].includes(savedScene)) {
+      setCurrentScene(savedScene);
+    }
+  }, []);
+
+  const handleSceneChange = (scene: SceneType) => {
+    setCurrentScene(scene);
+    localStorage.setItem("preferred-scene", scene);
+  };
 
   const scrollToNext = () => {
     const aboutSection = document.querySelector("#about");
@@ -24,17 +38,31 @@ export default function Hero() {
       ref={containerRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
+      {/* Scene Selector */}
+      <div className="absolute top-20 md:top-24 right-4 sm:right-8 z-50">
+        <SceneSelector currentScene={currentScene} onSceneChange={handleSceneChange} />
+      </div>
+
       {/* Three.js Background */}
       <div className="absolute inset-0 z-0">
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 75 }}
-          className="w-full h-full"
-        >
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} />
-          <HeroBackground />
-          <OrbitControls enableZoom={false} enablePan={false} />
-        </Canvas>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentScene}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="w-full h-full"
+          >
+            <Canvas
+              camera={{ position: [0, 0, 5], fov: 75 }}
+              className="w-full h-full"
+              gl={{ antialias: true, alpha: true }}
+            >
+              <SceneRenderer scene={currentScene} />
+            </Canvas>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* Content */}
@@ -134,25 +162,26 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        >
-          <motion.button
-            onClick={scrollToNext}
-            className="flex flex-col items-center text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Scroll down"
-            animate={{ y: [0, 10, 0] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-          >
-            <span className="text-sm mb-2">Scroll</span>
-            <ArrowDown className="h-5 w-5" />
-          </motion.button>
-        </motion.div>
+
       </div>
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+      >
+        <motion.button
+          onClick={scrollToNext}
+          className="flex flex-col items-center text-muted-foreground hover:text-foreground transition-colors"
+          aria-label="Scroll down"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+        >
+          <span className="text-sm mb-2">Scroll</span>
+          <ArrowDown className="h-5 w-5" />
+        </motion.button>
+      </motion.div>
     </section>
   );
 }
