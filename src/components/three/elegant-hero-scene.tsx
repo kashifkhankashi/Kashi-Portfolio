@@ -80,9 +80,9 @@ function FloatingElements() {
   
   const elements = useMemo(
     () => [
-      { position: [-2.5, 1.5, -3], size: 0.25, color: "#6366f1" },
-      { position: [2.5, -1.5, -3], size: 0.2, color: "#8b5cf6" },
-      { position: [0, 2, -4], size: 0.15, color: "#a855f7" },
+      { position: [-2.5, 1.5, -3] as [number, number, number], size: 0.25, color: "#6366f1" },
+      { position: [2.5, -1.5, -3] as [number, number, number], size: 0.2, color: "#8b5cf6" },
+      { position: [0, 2, -4] as [number, number, number], size: 0.15, color: "#a855f7" },
     ],
     []
   );
